@@ -58,7 +58,7 @@ while( !is_file( $wp_location ) ) {
 include("php://filter/read=stopwpbootstrap/resource=" . $wp_location);
 
 // Constant are defined ? WP & Plugin is loaded ?
-if ( !defined('DB_NAME') || !defined('BEA_PVC_VERSION') ) {
+if ( !defined('DB_NAME') ) {
 	die('-8');
 }
 
@@ -69,7 +69,11 @@ date_default_timezone_set( 'UTC' );
 require( dirname( __FILE__ ) . '/../librairies/php-mysql-class-master/class.MySQL.php' );
 
 // Load counter class for extend it
-require( dirname( __FILE__ ) . '/../classes/counter.php' );
+if ( is_file(dirname( __FILE__ ) . '/../../bea-post-views-counter/classes/counter.php') ) {
+	require( dirname( __FILE__ ) . '/../../bea-post-views-counter/classes/counter.php' );
+} else {
+	die('-7');
+}
 
 /**
  * Pure PHP class

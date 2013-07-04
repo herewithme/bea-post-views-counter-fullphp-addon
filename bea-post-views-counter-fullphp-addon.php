@@ -38,4 +38,8 @@ if ( !defined('ABSPATH') )
 define('BEA_PVC_FPA_URL', plugin_dir_url ( __FILE__ ));
 define('BEA_PVC_FPA_DIR', plugin_dir_path( __FILE__ ));
 
+// Get class
+require_once(BEA_PVC_FPA_DIR . "/classes/main.php");
+
+// Init
 add_action('plugins_loaded', create_function('', 'return new BEA_PVC_FPA_Main();'), 11 );
