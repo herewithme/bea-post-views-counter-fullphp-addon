@@ -1,4 +1,4 @@
-# BEA Post Views Counter - Addon FullPHP implemntation # 
+# BEA Post Views Counter - Addon FullPHP implementation
 
 **Contributors:** momo360modena  
 **Donate link:** http://beapi.fr/donate/  
