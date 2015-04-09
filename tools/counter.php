@@ -143,6 +143,8 @@ class BEA_PVC_Counter_Full_PHP extends BEA_PVC_Counter {
 	}
 }
 
+@header( 'Content-Type:  text/javascript' );
+
 if ( isset( $_GET['post_id'] ) && (int) $_GET['post_id'] > 0 && isset( $_GET['blog_id'] ) && (int) $_GET['blog_id'] > 0 ) {
 	$counter = new BEA_PVC_Counter_Full_PHP( (int) $_GET['post_id'], (int) $_GET['blog_id'] );
 	$result = $counter->increment();
