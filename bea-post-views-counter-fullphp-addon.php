@@ -9,7 +9,7 @@
  Domain Path: languages
  Network: false
  Text Domain: bea-post-views-counter-fullphp-addon
- Depends: bea-post-views-counter
+ Depends: BEA Post Views Counter
 
  ----
 
