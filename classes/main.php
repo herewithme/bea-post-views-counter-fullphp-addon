@@ -27,7 +27,7 @@ class BEA_PVC_FPA_Main {
 		if ( ! isset( $current_options['mode'] ) || 'js-php' !== $current_options['mode'] ) {
 			return $url;
 		}
-		$parts_url = parse_url( $url );
+		$parts_url = wp_parse_url( $url );
 		return add_query_arg( wp_parse_args( $parts_url['query'] ), BEA_PVC_FPA_URL . 'tools/counter.php' );
 	}
 
