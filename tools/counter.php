@@ -64,9 +64,9 @@ if ( !defined('DB_NAME') ) {
 
 // Timezone
 date_default_timezone_set( 'UTC' );
-
 // Load PHP MySQL Lib
-require( dirname( __FILE__ ) . '/../librairies/php-mysql-class-master/class.MySQL.php' );
+require( dirname( __FILE__ ) . '/../libraries/ezsql/shared/ez_sql_core.php' );
+require( dirname( __FILE__ ) . '/../libraries/ezsql/mysqli/ez_sql_mysqli.php' );
 
 // Load counter class for extend it
 if ( is_file(dirname( __FILE__ ) . '/../../bea-post-views-counter/classes/counter.php') ) {
@@ -85,15 +85,15 @@ class BEA_PVC_Counter_Full_PHP extends BEA_PVC_Counter {
 
 	public function __construct( $post_id = 0, $blog_id = 0 ) {
 		$blog_id = (int) $blog_id;
-		if ( $blog_id == 0 ) {
-			return false;
+		if ( $blog_id === 0 ) {
+			return;
 		}
 
 		// Keep blog id
 		$this->_blog_id = $blog_id;
 
 		// Init SQL connection
-		$this->_db = new MySQL( DB_NAME, DB_USER, DB_PASSWORD, DB_HOST );
+		$this->_db = new ezSQL_mysqli( DB_USER, DB_PASSWORD, DB_NAME, DB_HOST );
 
 		// Init parent
 		parent::__construct( $post_id, false );
@@ -120,21 +120,21 @@ class BEA_PVC_Counter_Full_PHP extends BEA_PVC_Counter {
 	}
 
 	protected function _get_row( $query = "" ) {
-		$result = $this->_db->ExecuteSQL( $query );
+		$result = $this->_db->get_row( $query, ARRAY_A );
 		$result = ( is_bool( $result ) ) ? false : $result; // TRUE = FALSE for WP
 		return $result;
 	}
 
 	protected function _insert( $table_name = '', $values = array( ) ) {
-		return $this->_db->Insert( $values, $table_name );
+		return $this->_db->query("INSERT INTO {$table_name} SET ".$this->_db->get_set( $values ) );
 	}
 
 	protected function _update( $table_name = '', $values = array( ), $where = array( ) ) {
-		return $this->_db->Update( $table_name, $values, $where );
+		return $this->_db->query("UPDATE {$table_name} SET ".$this->_db->get_set( $values )." WHERE ".$this->_db->get_set( $where ) );
 	}
 	
 	protected function get_option( $option_name = '' ) {
-		$result = $this->_get_row( sprintf("SELECT option_value FROM " . $this->_get_prefix() . "options WHERE option_name = '%s'", $this->_db->SecureData($option_name)) );
+		$result = $this->_get_row( sprintf("SELECT option_value FROM " . $this->_get_prefix() . "options WHERE option_name = '%s'", $this->_db->escape($option_name)) );
 		if ( $result != false ) {
 			return unserialize($result['option_value']);
 		} else {
@@ -147,7 +147,7 @@ if ( isset( $_GET['post_id'] ) && (int) $_GET['post_id'] > 0 && isset( $_GET['bl
 	$counter = new BEA_PVC_Counter_Full_PHP( (int) $_GET['post_id'], (int) $_GET['blog_id'] );
 	$result = $counter->increment();
 	
-	die( ($result == true) ? '1' : '-1' );
+	die( ($result === true) ? '1' : '-1' );
 }
 
 die( '0' ); // Invalid call
