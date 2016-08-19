@@ -19,7 +19,8 @@ class BEA_PVC_FPA_Main {
 		global $wpdb;
 
 		if ( isset($current_options['mode']) && $current_options['mode'] == 'js-php' ) { // Pure PHP
-			$url = BEA_PVC_FPA_URL . 'tools/counter.php?post_id='.  get_queried_object_id().'&blog_id='.$wpdb->blogid;
+			$blog_id = $wpdb->blogid === 0 ? 1 : $wpdb->blogid;
+			$url = add_query_arg( array( 'blog_id' => $blog_id, 'post_id' => get_queried_object_id() ), BEA_PVC_FPA_URL.'tools/counter.php' );
 		}
 
 		return $url;
