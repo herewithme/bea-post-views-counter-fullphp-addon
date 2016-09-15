@@ -9,7 +9,7 @@
  Domain Path: languages
  Network: false
  Text Domain: bea-post-views-counter-fullphp-addon
- Depends: bea-post-views-counter
+ Depends: BEA Post Views Counter
 
  ----
 
@@ -30,16 +30,25 @@
  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-// don't load directly
-if ( !defined('ABSPATH') )
-	die('-1');
+// don't load directly.
+if ( ! defined( 'ABSPATH' ) ) {
+	die( '-1' );
+}
 
 // Plugin URL and PATH
-define('BEA_PVC_FPA_URL', plugin_dir_url ( __FILE__ ));
-define('BEA_PVC_FPA_DIR', plugin_dir_path( __FILE__ ));
+define( 'BEA_PVC_FPA_URL', plugin_dir_url( __FILE__ ) );
+define( 'BEA_PVC_FPA_DIR', plugin_dir_path( __FILE__ ) );
 
 // Get class
-require_once(BEA_PVC_FPA_DIR . "/classes/main.php");
+require_once( BEA_PVC_FPA_DIR . "/classes/main.php" );
 
 // Init
-add_action('plugins_loaded', create_function('', 'return new BEA_PVC_FPA_Main();'), 11 );
+add_action( 'plugins_loaded', 'bea_pvcf_phpaddon', 11 );
+/**
+ * Init plugin files
+ *
+ * @author Nicolas JUEN
+ */
+function bea_pvcf_phpaddon() {
+	new BEA_PVC_FPA_Main();
+}
